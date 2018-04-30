@@ -90,6 +90,7 @@ namespace EasyImage
                 pictureAfter.Image = Reader.Draw(Reader.RescaleImage(result, x, y), x, y);
             else
             {
+                //LEGACY
                 pictureBefore.Image = Parser.readFile(image);
                 Bitmap temp = (Bitmap)pictureBefore.Image.Clone();
                 pictureAfter.Image = Processing.Equalizing(temp);
