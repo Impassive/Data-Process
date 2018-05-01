@@ -40,6 +40,8 @@ namespace EasyImage.Source
                             }
                         }
                         result = RescaleImage(result, width, height);
+                        mainForm.x = width;
+                        mainForm.y = height;
                     }
                     break;
                 case (".xcr"):
@@ -79,7 +81,7 @@ namespace EasyImage.Source
                             }
                         }
                         reader.Close();
-                        result = RescaleImage(result, width, height);
+                        //result = RescaleImage(result, width, height);
                     }
                     break;
                 case (".dat"):
@@ -99,10 +101,7 @@ namespace EasyImage.Source
             }
             mainForm.x = width;
             mainForm.y = height;
-            if (Path.GetExtension(file) == ".dat" || rescale == false)
                 return result;
-            else 
-                return RescaleImage(result, width, height);
         }
 
         public static double[] readHex(string filename)

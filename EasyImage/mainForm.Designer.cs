@@ -33,7 +33,6 @@
             this.operationGbox = new System.Windows.Forms.GroupBox();
             this.listOperations = new System.Windows.Forms.ComboBox();
             this.openKernel = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.openSource = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,6 +44,7 @@
             this.pictureBefore = new System.Windows.Forms.PictureBox();
             this.tabHisto = new System.Windows.Forms.TabPage();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabImage.SuspendLayout();
             this.operationGbox.SuspendLayout();
@@ -81,10 +81,10 @@
             // operationGbox
             // 
             this.operationGbox.Controls.Add(this.listOperations);
-            this.operationGbox.Controls.Add(this.openKernel);
-            this.operationGbox.Controls.Add(this.label3);
             this.operationGbox.Controls.Add(this.label2);
+            this.operationGbox.Controls.Add(this.label4);
             this.operationGbox.Controls.Add(this.openSource);
+            this.operationGbox.Controls.Add(this.openKernel);
             this.operationGbox.Controls.Add(this.label1);
             this.operationGbox.Controls.Add(this.goBtn);
             this.operationGbox.Location = new System.Drawing.Point(20, 557);
@@ -104,32 +104,26 @@
             "Logarithm",
             "Negative",
             "Gamma",
-            "Equalize"});
+            "Equalize",
+            "Remove Border (LPF)",
+            "Remove Border (Gradient)",
+            "Remove Border (Laplassian)"});
             this.listOperations.Location = new System.Drawing.Point(69, 25);
             this.listOperations.Name = "listOperations";
-            this.listOperations.Size = new System.Drawing.Size(121, 24);
+            this.listOperations.Size = new System.Drawing.Size(196, 24);
             this.listOperations.TabIndex = 6;
             this.listOperations.Text = "None";
             // 
             // openKernel
             // 
             this.openKernel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.openKernel.Location = new System.Drawing.Point(69, 119);
+            this.openKernel.Location = new System.Drawing.Point(69, 117);
             this.openKernel.Name = "openKernel";
             this.openKernel.Size = new System.Drawing.Size(75, 31);
             this.openKernel.TabIndex = 5;
             this.openKernel.Text = "Open";
             this.openKernel.UseVisualStyleBackColor = true;
             this.openKernel.Click += new System.EventHandler(this.openKernel_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 126);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 17);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Kernel: ";
             // 
             // label2
             // 
@@ -236,6 +230,15 @@
             this.openFileDialog.FileName = "empty";
             this.openFileDialog.InitialDirectory = "C:\\Users\\Admin\\source\\repos\\EasyImage\\Image_Kernel";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 124);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 17);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Kernel: ";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -272,12 +275,12 @@
         private System.Windows.Forms.Label labelBefore;
         private System.Windows.Forms.Button goBtn;
         private System.Windows.Forms.Button openKernel;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button openSource;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ComboBox listOperations;
+        private System.Windows.Forms.Label label4;
     }
 }
 

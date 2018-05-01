@@ -90,5 +90,119 @@ namespace EasyImage.Source
             bmp.UnlockBits(bmpData);
             return bmp;
         }
+
+        public static double Maximum(double[][] source)
+        {
+            double max = int.MinValue;
+            double tmp;
+            for (int i = 0; i < source.Length; i++)
+            {
+                tmp = source[i].Max();
+                if (tmp > max)
+                {
+                    max = tmp;
+                }
+            }
+            return max;
+        }
+
+        public static double Minimum(double[][] source)
+        {
+            double min = int.MaxValue;
+            double tmp;
+            for (int i = 0; i < source.Length; i++)
+            {
+                tmp = source[i].Max();
+                if (tmp < min)
+                {
+                    min = tmp;
+                }
+            }
+            return min;
+        }
+
+        public static double[][] ApplyMaskErosion(double[][] source, int maskWidth, double threshold)
+        {
+            double[][] result = new double[source.Length][];
+            int maxMi = (int)maskWidth / 2;
+            int maxMj = (int)maskWidth / 2;
+            for (int i = 0; i < source.Length; i++)
+            {
+                result[i] = new double[source[i].Length];
+                for (int j = 0; j < source[i].Length; j++)
+                {
+                    double value = source[i][j];
+                    if (i >= maxMi && i < source.Length - maxMi && j >= maxMj && j < source[i].Length - maxMj)
+                    {
+                        double[][] range = source.Skip(i - maxMi).Take(maskWidth)
+                            .Select(x => x.Skip(j - maxMj).Take(maskWidth).ToArray())
+                            .ToArray();
+                        bool needToDelete = false;
+                        for (int mi = 0; mi < range.Length; mi++)
+                        {
+                            for (int mj = 0; mj < range[mi].Length; mj++)
+                            {
+                                if (range[mi][mj] < threshold)
+                                {
+                                    needToDelete = true;
+                                }
+                            }
+                        }
+                        if (needToDelete)
+                        {
+                            double min = Minimum(range);
+
+                            value = min;
+                        }
+                    }
+                    result[i][j] = value;
+                }
+            }
+            return result;
+        }
+
+        public static double[][] ApplyMaskDilatation(double[][] source, int maskWidth, double threshold)
+        {
+            double[][] result = new double[source.Length][];
+            int maxMi = (int)maskWidth / 2;
+            int maxMj = (int)maskWidth / 2;
+            for (int i = 0; i < source.Length; i++)
+            {
+                result[i] = new double[source[i].Length];
+                //++
+                for (int j = 0; j < source[i].Length; j++)
+                {
+                    double value = source[i][j];
+                    if (i >= maxMi && i < source.Length - maxMi && j >= maxMj && j < source[i].Length - maxMj)
+                    {
+                        double[][] range = source.Skip(i - maxMi).Take(maskWidth)
+                            .Select(x => x.Skip(j - maxMj).Take(maskWidth).ToArray())
+                            .ToArray();
+
+                        bool needToAdd = false;
+
+
+                        for (int mi = 0; mi < range.Length; mi++)
+                        {
+                            for (int mj = 0; mj < range[mi].Length; mj++)
+                            {
+                                if (range[mi][mj] > threshold)
+                                {
+                                    needToAdd = true;
+                                }
+                            }
+                        }
+                        if (needToAdd)
+                        {
+                            double max = Maximum(range);
+
+                            value = max;
+                        }
+                    }
+                    result[i][j] = value;
+                }
+            }
+            return result;
+        }
     }
 }
