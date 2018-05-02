@@ -240,7 +240,7 @@ namespace EasyImage
             {
                 case ("Random"):
                     {
-                        result = Processing.randomNoize(data, 0.25);
+                        result = Processing.randomNoize(data, 0.4);
                     }
                     break;
                 case ("Impulse (Salt and Pepper)"):
@@ -285,7 +285,7 @@ namespace EasyImage
                         Fourier.Draw(fourierChart, tempFourier2, SeriesChartType.Spline);
 
                         //LPF Filter
-                        result = Filters.LPF_y(result, filter, 4, dt);
+                        result = Filters.LPF_y(result, filter, 64, dt);
                         //Print Fourier after LPF
                         //tempFourier2 = PrepareVerticalFouirier(temp, line);
                         //Fourier.Draw(fourierChart, tempFourier2, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
@@ -303,7 +303,7 @@ namespace EasyImage
                         Fourier.Draw(fourierChart, tempFourier2, SeriesChartType.Spline);
 
                         //HPF Filter
-                        temp = Filters.HPF_y(temp, filter, 4, dt);
+                        temp = Filters.HPF_y(temp, filter, 64, dt);
                         //Print Fourier after HPF
                         //tempFourier2 = PrepareVerticalFouirier(temp, line);
                         //Fourier.Draw(fourierChart, tempFourier2, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
