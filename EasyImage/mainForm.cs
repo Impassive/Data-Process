@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace EasyImage
 {
@@ -208,11 +209,24 @@ namespace EasyImage
                 pictureAfter.Image = Reader.Draw(Reader.RescaleImage(result, x, y), x, y);
             else
             {
+                //Prepare Hist
+                int levels = 256;
+                DrawHist(Parser.BitmapTo2D((Bitmap)pictureBefore.Image), chartHisto, levels);
                 //LEGACY
+                //Draw Picture
                 pictureBefore.Image = Parser.readFile(image);
                 Bitmap temp = (Bitmap)pictureBefore.Image.Clone();
                 pictureAfter.Image = Processing.Equalizing(temp);
             }
+        }
+
+        private void DrawHist(double[][] data, Chart chart, int levels)
+        {
+            chartHisto.Series.Clear();
+            Histo.Draw(chartHisto, "normal", Histo.Hist(data, levels), SeriesChartType.Column);
+            Histo.Draw(chartHisto, "density", Histo.Density(Histo.Hist(data, levels)), SeriesChartType.Line);
+            Histo.Draw(chartHisto, "equalization", Histo.Hist(Histo.HistEquilization(data, levels), levels), SeriesChartType.Column);
+            Histo.Draw(chartHisto, "reverse", Histo.Reversed(Histo.Density(Histo.Hist(data, levels)), levels), SeriesChartType.Column);
         }
 
         private void noizeBtn_Click(object sender, EventArgs e)

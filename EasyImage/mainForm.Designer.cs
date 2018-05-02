@@ -28,9 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabImage = new System.Windows.Forms.TabPage();
             this.noizeGBox = new System.Windows.Forms.GroupBox();
@@ -56,6 +62,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.listRemoveNoize = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.chartHisto = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl.SuspendLayout();
             this.tabImage.SuspendLayout();
             this.noizeGBox.SuspendLayout();
@@ -65,6 +72,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBefore)).BeginInit();
             this.tabFourier.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fourierChart)).BeginInit();
+            this.tabHisto.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHisto)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -304,23 +313,24 @@
             // 
             // fourierChart
             // 
-            chartArea3.Name = "Fourier";
-            this.fourierChart.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "Fourier";
+            this.fourierChart.ChartAreas.Add(chartArea1);
             this.fourierChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.fourierChart.Legends.Add(legend3);
+            legend1.Name = "Legend1";
+            this.fourierChart.Legends.Add(legend1);
             this.fourierChart.Location = new System.Drawing.Point(0, 0);
             this.fourierChart.Name = "fourierChart";
-            series3.ChartArea = "Fourier";
-            series3.Legend = "Legend1";
-            series3.Name = "default";
-            this.fourierChart.Series.Add(series3);
+            series1.ChartArea = "Fourier";
+            series1.Legend = "Legend1";
+            series1.Name = "default";
+            this.fourierChart.Series.Add(series1);
             this.fourierChart.Size = new System.Drawing.Size(1296, 756);
             this.fourierChart.TabIndex = 0;
             this.fourierChart.Text = "fourierChart";
             // 
             // tabHisto
             // 
+            this.tabHisto.Controls.Add(this.chartHisto);
             this.tabHisto.Location = new System.Drawing.Point(4, 25);
             this.tabHisto.Name = "tabHisto";
             this.tabHisto.Padding = new System.Windows.Forms.Padding(3);
@@ -358,6 +368,29 @@
             this.label5.TabIndex = 13;
             this.label5.Text = "Type:";
             // 
+            // chartHisto
+            // 
+            chartArea2.Name = "normal";
+            chartArea3.Name = "density";
+            chartArea4.Name = "equalization";
+            chartArea5.Name = "reverse";
+            this.chartHisto.ChartAreas.Add(chartArea2);
+            this.chartHisto.ChartAreas.Add(chartArea3);
+            this.chartHisto.ChartAreas.Add(chartArea4);
+            this.chartHisto.ChartAreas.Add(chartArea5);
+            this.chartHisto.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.chartHisto.Legends.Add(legend2);
+            this.chartHisto.Location = new System.Drawing.Point(3, 3);
+            this.chartHisto.Name = "chartHisto";
+            series2.ChartArea = "normal";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartHisto.Series.Add(series2);
+            this.chartHisto.Size = new System.Drawing.Size(1290, 750);
+            this.chartHisto.TabIndex = 0;
+            this.chartHisto.Text = "histo";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -381,6 +414,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBefore)).EndInit();
             this.tabFourier.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fourierChart)).EndInit();
+            this.tabHisto.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartHisto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -412,6 +447,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox listRemoveNoize;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartHisto;
     }
 }
 

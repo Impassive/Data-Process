@@ -66,6 +66,25 @@ namespace EasyImage.Source
             }
             return SaveArr;
         }
+
+        public static double[][] BitmapTo2D(Bitmap bmp)
+        {
+            int width = bmp.Width;
+            int height = bmp.Height;
+            double[][] result = new double[width][];
+
+            for (int i = 0; i < width; i++)
+            {
+                result[i] = new double[height];
+                for (int j = 0; j < height; j++)
+                {
+                    int value = bmp.GetPixel(i, j).ToArgb();
+
+                    result[i][j] = value;
+                }
+            }
+            return Reader.RescaleImage(result,width,height);
+        }
     }
 }
 

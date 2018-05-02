@@ -73,6 +73,7 @@
     <Compile Include="Source\Border.cs" />
     <Compile Include="Source\Filters.cs" />
     <Compile Include="Source\Fourier.cs" />
+    <Compile Include="Source\Histo.cs" />
     <Compile Include="Source\Parser.cs" />
     <Compile Include="Source\Processing.cs" />
     <Compile Include="Source\Recover.cs" />
