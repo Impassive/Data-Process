@@ -101,7 +101,7 @@ namespace EasyImage.Source
             }
             mainForm.x = width;
             mainForm.y = height;
-                return result;
+            return result;
         }
 
         public static double[] readHex(string filename)
@@ -198,6 +198,29 @@ namespace EasyImage.Source
             return Image.FromHbitmap(bmp.GetHbitmap());
         }
 
+        public static double[][] Rotate(double[][] source)
+        {
+            double[][] result = new double[source[0].Length][];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new double[source.Length];
+            }
+
+            for (int i = 0; i < source.Length; i++)
+            {
+
+                for (int j = 0; j < source[i].Length; j++)
+                {
+
+                    result[j][i] = source[i][j];
+                }
+            }
+            int temp = 0;
+            temp = mainForm.x;
+            mainForm.x = mainForm.y;
+            mainForm.y = temp;
+            return result;
+        }
 
     }
 }

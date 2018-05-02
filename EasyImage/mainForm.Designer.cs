@@ -28,13 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabImage = new System.Windows.Forms.TabPage();
+            this.noizeGBox = new System.Windows.Forms.GroupBox();
+            this.noizeBtn = new System.Windows.Forms.Button();
+            this.listNoize = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.operationGbox = new System.Windows.Forms.GroupBox();
             this.listOperations = new System.Windows.Forms.ComboBox();
-            this.openKernel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.openSource = new System.Windows.Forms.Button();
+            this.openKernel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.goBtn = new System.Windows.Forms.Button();
             this.pictureGBox = new System.Windows.Forms.GroupBox();
@@ -42,20 +50,27 @@
             this.labelBefore = new System.Windows.Forms.Label();
             this.pictureAfter = new System.Windows.Forms.PictureBox();
             this.pictureBefore = new System.Windows.Forms.PictureBox();
+            this.tabFourier = new System.Windows.Forms.TabPage();
+            this.fourierChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabHisto = new System.Windows.Forms.TabPage();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.label4 = new System.Windows.Forms.Label();
+            this.listRemoveNoize = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabImage.SuspendLayout();
+            this.noizeGBox.SuspendLayout();
             this.operationGbox.SuspendLayout();
             this.pictureGBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureAfter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBefore)).BeginInit();
+            this.tabFourier.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fourierChart)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabImage);
+            this.tabControl.Controls.Add(this.tabFourier);
             this.tabControl.Controls.Add(this.tabHisto);
             this.tabControl.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -68,6 +83,7 @@
             // tabImage
             // 
             this.tabImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabImage.Controls.Add(this.noizeGBox);
             this.tabImage.Controls.Add(this.operationGbox);
             this.tabImage.Controls.Add(this.pictureGBox);
             this.tabImage.Location = new System.Drawing.Point(4, 25);
@@ -77,6 +93,53 @@
             this.tabImage.TabIndex = 0;
             this.tabImage.Text = "Image";
             this.tabImage.UseVisualStyleBackColor = true;
+            // 
+            // noizeGBox
+            // 
+            this.noizeGBox.Controls.Add(this.listRemoveNoize);
+            this.noizeGBox.Controls.Add(this.label5);
+            this.noizeGBox.Controls.Add(this.noizeBtn);
+            this.noizeGBox.Controls.Add(this.listNoize);
+            this.noizeGBox.Controls.Add(this.label3);
+            this.noizeGBox.Location = new System.Drawing.Point(555, 557);
+            this.noizeGBox.Name = "noizeGBox";
+            this.noizeGBox.Size = new System.Drawing.Size(314, 167);
+            this.noizeGBox.TabIndex = 2;
+            this.noizeGBox.TabStop = false;
+            this.noizeGBox.Text = "Apply Noize";
+            // 
+            // noizeBtn
+            // 
+            this.noizeBtn.Location = new System.Drawing.Point(233, 135);
+            this.noizeBtn.Name = "noizeBtn";
+            this.noizeBtn.Size = new System.Drawing.Size(75, 28);
+            this.noizeBtn.TabIndex = 10;
+            this.noizeBtn.Text = "Apply";
+            this.noizeBtn.UseVisualStyleBackColor = true;
+            this.noizeBtn.Click += new System.EventHandler(this.noizeBtn_Click);
+            // 
+            // listNoize
+            // 
+            this.listNoize.FormattingEnabled = true;
+            this.listNoize.Items.AddRange(new object[] {
+            "None",
+            "Random",
+            "Impulse (Salt and Pepper)",
+            "Both"});
+            this.listNoize.Location = new System.Drawing.Point(81, 25);
+            this.listNoize.Name = "listNoize";
+            this.listNoize.Size = new System.Drawing.Size(196, 24);
+            this.listNoize.TabIndex = 12;
+            this.listNoize.Text = "None";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 28);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 17);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Type:";
             // 
             // operationGbox
             // 
@@ -107,23 +170,17 @@
             "Equalize",
             "Remove Border (LPF)",
             "Remove Border (Gradient)",
-            "Remove Border (Laplassian)"});
+            "Remove Border (Laplassian)",
+            "Recover",
+            "Recover with Noize",
+            "Remove Grid",
+            "Dilatation",
+            "Erosion"});
             this.listOperations.Location = new System.Drawing.Point(69, 25);
             this.listOperations.Name = "listOperations";
             this.listOperations.Size = new System.Drawing.Size(196, 24);
             this.listOperations.TabIndex = 6;
             this.listOperations.Text = "None";
-            // 
-            // openKernel
-            // 
-            this.openKernel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.openKernel.Location = new System.Drawing.Point(69, 117);
-            this.openKernel.Name = "openKernel";
-            this.openKernel.Size = new System.Drawing.Size(75, 31);
-            this.openKernel.TabIndex = 5;
-            this.openKernel.Text = "Open";
-            this.openKernel.UseVisualStyleBackColor = true;
-            this.openKernel.Click += new System.EventHandler(this.openKernel_Click);
             // 
             // label2
             // 
@@ -133,6 +190,15 @@
             this.label2.Size = new System.Drawing.Size(57, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Source:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 124);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 17);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Kernel: ";
             // 
             // openSource
             // 
@@ -144,6 +210,17 @@
             this.openSource.Text = "Open";
             this.openSource.UseVisualStyleBackColor = true;
             this.openSource.Click += new System.EventHandler(this.openSource_Click);
+            // 
+            // openKernel
+            // 
+            this.openKernel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.openKernel.Location = new System.Drawing.Point(69, 117);
+            this.openKernel.Name = "openKernel";
+            this.openKernel.Size = new System.Drawing.Size(75, 31);
+            this.openKernel.TabIndex = 5;
+            this.openKernel.Text = "Open";
+            this.openKernel.UseVisualStyleBackColor = true;
+            this.openKernel.Click += new System.EventHandler(this.openKernel_Click);
             // 
             // label1
             // 
@@ -215,6 +292,33 @@
             this.pictureBefore.TabIndex = 0;
             this.pictureBefore.TabStop = false;
             // 
+            // tabFourier
+            // 
+            this.tabFourier.Controls.Add(this.fourierChart);
+            this.tabFourier.Location = new System.Drawing.Point(4, 25);
+            this.tabFourier.Name = "tabFourier";
+            this.tabFourier.Size = new System.Drawing.Size(1296, 756);
+            this.tabFourier.TabIndex = 2;
+            this.tabFourier.Text = "Fourier";
+            this.tabFourier.UseVisualStyleBackColor = true;
+            // 
+            // fourierChart
+            // 
+            chartArea3.Name = "Fourier";
+            this.fourierChart.ChartAreas.Add(chartArea3);
+            this.fourierChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend3.Name = "Legend1";
+            this.fourierChart.Legends.Add(legend3);
+            this.fourierChart.Location = new System.Drawing.Point(0, 0);
+            this.fourierChart.Name = "fourierChart";
+            series3.ChartArea = "Fourier";
+            series3.Legend = "Legend1";
+            series3.Name = "default";
+            this.fourierChart.Series.Add(series3);
+            this.fourierChart.Size = new System.Drawing.Size(1296, 756);
+            this.fourierChart.TabIndex = 0;
+            this.fourierChart.Text = "fourierChart";
+            // 
             // tabHisto
             // 
             this.tabHisto.Location = new System.Drawing.Point(4, 25);
@@ -230,14 +334,29 @@
             this.openFileDialog.FileName = "empty";
             this.openFileDialog.InitialDirectory = "C:\\Users\\Admin\\source\\repos\\EasyImage\\Image_Kernel";
             // 
-            // label4
+            // listRemoveNoize
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 124);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 17);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Kernel: ";
+            this.listRemoveNoize.FormattingEnabled = true;
+            this.listRemoveNoize.Items.AddRange(new object[] {
+            "None",
+            "Avg",
+            "Median",
+            "LPF",
+            "HPF"});
+            this.listRemoveNoize.Location = new System.Drawing.Point(81, 66);
+            this.listRemoveNoize.Name = "listRemoveNoize";
+            this.listRemoveNoize.Size = new System.Drawing.Size(196, 24);
+            this.listRemoveNoize.TabIndex = 14;
+            this.listRemoveNoize.Text = "None";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 17);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Type:";
             // 
             // mainForm
             // 
@@ -252,12 +371,16 @@
             this.Text = "Easy Image";
             this.tabControl.ResumeLayout(false);
             this.tabImage.ResumeLayout(false);
+            this.noizeGBox.ResumeLayout(false);
+            this.noizeGBox.PerformLayout();
             this.operationGbox.ResumeLayout(false);
             this.operationGbox.PerformLayout();
             this.pictureGBox.ResumeLayout(false);
             this.pictureGBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureAfter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBefore)).EndInit();
+            this.tabFourier.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fourierChart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -281,6 +404,14 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ComboBox listOperations;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TabPage tabFourier;
+        private System.Windows.Forms.DataVisualization.Charting.Chart fourierChart;
+        private System.Windows.Forms.Button noizeBtn;
+        private System.Windows.Forms.GroupBox noizeGBox;
+        private System.Windows.Forms.ComboBox listNoize;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox listRemoveNoize;
+        private System.Windows.Forms.Label label5;
     }
 }
 

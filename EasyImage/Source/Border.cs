@@ -38,7 +38,7 @@ namespace EasyImage.Source
                 for (int j = 0; j < source[i].Length; j++)
                     temp[i][j] = source[i][j];
             }
-            temp = Filters.LPF(temp, fcut, m, dt);
+            temp = Filters.LPF_y(temp, fcut, m, dt);
 
             //Minus
             for (int i = 0; i < source.Length; i++)
@@ -50,23 +50,23 @@ namespace EasyImage.Source
             return temp;
         }
 
-        public static double[][] ApplyMask(double[][] f, double[][] mask)
+        public static double[][] ApplyMask(double[][] source, double[][] mask)
         {
-            double[][] result = new double[f.Length][];
-            for (int i = 0; i < f.Length; i++)
+            double[][] result = new double[source.Length][];
+            for (int i = 0; i < source.Length; i++)
             {
-                result[i] = new double[f[i].Length];
-                for (int j = 0; j < f[i].Length; j++)
+                result[i] = new double[source[i].Length];
+                for (int j = 0; j < source[i].Length; j++)
                 {
                     int maxMi = (int)mask.Length / 2;
                     int maxMj = (int)mask[0].Length / 2;
-                    double[][] range = f.Skip(i - maxMi).Take(i >= maxMi ? mask.Length : i + maxMi + 1)
+                    double[][] range = source.Skip(i - maxMi).Take(i >= maxMi ? mask.Length : i + maxMi + 1)
                         .Select(x => x.Skip(j - maxMj).Take(j >= maxMj ? mask[0].Length : j + maxMj + 1).ToArray())
                         .ToArray();
                     double[][] maskRange = mask.Skip(i < maxMi ? maxMi - i : 0)
-                        .Take(i + maxMi >= f.Length ? f.Length - i + 1 : mask.Length)
+                        .Take(i + maxMi >= source.Length ? source.Length - i + 1 : mask.Length)
                         .Select(x => x.Skip(j < maxMj ? maxMj - j : 0)
-                                      .Take(j + maxMj >= f[i].Length ? f[i].Length - j + 1 : mask[0].Length)
+                                      .Take(j + maxMj >= source[i].Length ? source[i].Length - j + 1 : mask[0].Length)
                                       .ToArray())
                         .ToArray();
                     int counter = 0;
@@ -87,43 +87,43 @@ namespace EasyImage.Source
             return result;
         }
 
-        public static double[][] Gradient(double[][] f)
+        public static double[][] Gradient(double[][] source)
         {
             double[][] horMask = new double[3][] { new double[3] { -1, -2, -1 }, new double[3] { 0, 0, 0 }, new double[3] { 1, 2, 1 } };
             double[][] vertMask = new double[3][] { new double[3] { -1, 0, 1 }, new double[3] { -2, 0, 2 }, new double[3] { -1, 0, 1 } };
             double[][] diagMask = new double[3][] { new double[3] { 0, 1, 1 }, new double[3] { -1, 0, 1 }, new double[3] { -1, -1, 0 } };
             double[][] diagMaskReversed = new double[3][] { new double[3] { 1, 1, 0 }, new double[3] { 1, 0, -1 }, new double[3] { 0, -1, -1 } };
 
-            double[][] Horizontal = ApplyMask(f, horMask);
-            double[][] Vertical = ApplyMask(f, vertMask);
-            double[][] Diagonal = ApplyMask(f, diagMask);
-            double[][] DiagonalRev = ApplyMask(f, diagMaskReversed);
+            double[][] Horizontal = ApplyMask(source, horMask);
+            double[][] Vertical = ApplyMask(source, vertMask);
+            double[][] Diagonal = ApplyMask(source, diagMask);
+            double[][] DiagonalRev = ApplyMask(source, diagMaskReversed);
 
             double tmp;
-            for (int i = 0; i < f.Length; i++)
+            for (int i = 0; i < source.Length; i++)
             {
-                for (int j = 0; j < f[i].Length; j++)
+                for (int j = 0; j < source[i].Length; j++)
                 {
                     tmp = Horizontal[i][j] + Vertical[i][j] + Diagonal[i][j] + DiagonalRev[i][j];
                     if (tmp < 0)
                     {
                         tmp = 0;
                     }
-                    f[i][j] = tmp;
+                    source[i][j] = tmp;
                 }
             }
-            return f;
+            return source;
         }
 
-        public static double[][] Laplassian(double[][] f)
+        public static double[][] Laplassian(double[][] source)
         {
             double[][] horMask = new double[3][] { new double[3] { -1, -1, -1 }, new double[3] { -1, 8, -1 }, new double[3] { -1, -1, -1 } };
-            double[][] Horizontal = ApplyMask(f, horMask);
+            double[][] Horizontal = ApplyMask(source, horMask);
 
             double tmp;
-            for (int i = 0; i < f.Length; i++)
+            for (int i = 0; i < source.Length; i++)
             {
-                for (int j = 0; j < f[i].Length; j++)
+                for (int j = 0; j < source[i].Length; j++)
                 {
                     tmp = Horizontal[i][j];
                     if (tmp < 0)
@@ -131,10 +131,10 @@ namespace EasyImage.Source
                         tmp = 0;
                     }
 
-                    f[i][j] = tmp;
+                    source[i][j] = tmp;
                 }
             }
-            return f;
+            return source;
         }
     }
 }

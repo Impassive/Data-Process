@@ -18,7 +18,6 @@ namespace EasyImage.Source
             {
                 for (int j = 0; j < height; j++)
                 {
-
                     x[i][j] = Lmax - 1 - x[i][j];
                 }
             }
@@ -35,7 +34,6 @@ namespace EasyImage.Source
             {
                 for (int j = 0; j < height; j++)
                 {
-
                     x[i][j] = C * Math.Pow(x[i][j], gamma);
                 }
 
@@ -112,7 +110,7 @@ namespace EasyImage.Source
             double tmp;
             for (int i = 0; i < source.Length; i++)
             {
-                tmp = source[i].Max();
+                tmp = source[i].Min();
                 if (tmp < min)
                 {
                     min = tmp;
@@ -120,6 +118,27 @@ namespace EasyImage.Source
             }
             return min;
         }
+
+        public static double[][] ApplyMaskedFunction(double[][] f, int maskWidth, Func<double[][], double, double> fromRangeFunction)
+        {
+            double[][] result = new double[f.Length][];
+            for (int i = 0; i < f.Length; i++)
+            {
+                result[i] = new double[f[i].Length];
+                for (int j = 0; j < f[i].Length; j++)
+                {
+                    int maxMi = (int)maskWidth / 2;
+                    int maxMj = (int)maskWidth / 2;
+                    double[][] range = f.Skip(i - maxMi).Take(i >= maxMi ? maskWidth : i + maxMi + 1)
+                        .Select(x => x.Skip(j - maxMj).Take(j >= maxMj ? maskWidth : j + maxMj + 1).ToArray())
+                        .ToArray();
+
+                    result[i][j] = fromRangeFunction.Invoke(range,maskWidth);
+                }
+            }
+            return result;
+        }
+
 
         public static double[][] ApplyMaskErosion(double[][] source, int maskWidth, double threshold)
         {
@@ -204,5 +223,69 @@ namespace EasyImage.Source
             }
             return result;
         }
+
+        public static double[][] ApplyRandNoize(double[][] source, double power)
+        {
+            Random rnd = new Random(source.Length);
+            double[][] result = new double[source.Length][];
+            double rndValue;
+            int min = (int)Minimum(source);
+            int max = (int)Maximum(source);
+            if (max - min < 128)
+            {
+                min = 0;
+                max = 255;
+            }
+            for (int i = 0; i < source.Length; i++)
+            {
+                result[i] = new double[source[i].Length];
+                for (int j = 0; j < source[i].Length; j++)
+                {
+                    rndValue = rnd.NextDouble();
+                    result[i][j] = source[i][j];
+                    if (rndValue < power)
+                    {
+                        int value = rnd.Next(1, 15) * rnd.Next(-2, 3);
+                        result[i][j] += value;
+                        if (result[i][j] > max) result[i][j] -= value;
+                        if (result[i][j] < min) result[i][j] += value;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static double[][] noizeSaltAndPepper(double[][] source, double power)
+        {
+            Random rnd = new Random(source.Length);
+            double[][] result = new double[source.Length][];
+            double rndValue;
+            int min = (int)Minimum(source);
+            int max = (int)Maximum(source);
+            if (max - min < 128)
+            {
+                min = 0;
+                max = 255;
+            }
+            for (int i = 0; i < source.Length; i++)
+            {
+                result[i] = new double[source[i].Length];
+                for (int j = 0; j < source[i].Length; j++)
+                {
+                    rndValue = rnd.NextDouble();
+                    if (rndValue < power)
+                    {
+                        result[i][j] = rnd.Next(0, 255);
+                    }
+                    else
+                    {
+                        result[i][j] = source[i][j];
+                    }
+                }
+            }
+            return result;
+
+        }
+
     }
 }

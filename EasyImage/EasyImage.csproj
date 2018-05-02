@@ -49,6 +49,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,8 +72,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Border.cs" />
     <Compile Include="Source\Filters.cs" />
+    <Compile Include="Source\Fourier.cs" />
     <Compile Include="Source\Parser.cs" />
     <Compile Include="Source\Processing.cs" />
+    <Compile Include="Source\Recover.cs" />
     <Compile Include="Source\Zoom.cs" />
     <Compile Include="Source\Reader.cs" />
     <EmbeddedResource Include="mainForm.resx">

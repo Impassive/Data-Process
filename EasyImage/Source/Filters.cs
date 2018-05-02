@@ -49,7 +49,39 @@ namespace EasyImage.Source
             return total_lpw;
         }
 
-        public static double[][] LPF(double[][] source, double fcut, int m, double dt)
+        public static List<double> _HPF_Filter(double fcut, int m, double dt)
+        {
+            List<double> lpw = _LPF_Filter(fcut, m, dt);
+            for (int i = 0; i < lpw.Count; i++)
+            {
+                lpw[i] *= -1;
+            }
+            lpw[m] += 1;
+            return lpw;
+        }
+        public static List<double> _BPF_Filter(double fcut1, double fcut2, int m, double dt)
+        {
+            List<double> lpw1 = _LPF_Filter(fcut1, m, dt);
+            List<double> lpw2 = _LPF_Filter(fcut2, m, dt);
+            for (int i = 0; i < lpw1.Count; i++)
+            {
+                lpw1[i] = lpw2[i] - lpw1[i];
+            }
+            return lpw1;
+        }
+        public static List<double> _BSF_Filter(double fcut1, double fcut2, int m, double dt)
+        {
+            List<double> lpw1 = _LPF_Filter(fcut1, m, dt);
+            List<double> lpw2 = _LPF_Filter(fcut2, m, dt);
+            for (int i = 0; i < lpw1.Count; i++)
+            {
+                lpw1[i] = lpw1[i] - lpw2[i];
+            }
+            lpw1[m] += 1;
+            return lpw1;
+        }
+
+        public static double[][] LPF_y(double[][] source, double fcut, int m, double dt)
         {
             List<double> lpw_lpf = _LPF_Filter(fcut, m, dt);
 
@@ -81,6 +113,101 @@ namespace EasyImage.Source
             return source;
         }
 
+        public static double[][] HPF_y(double[][] source, double fcut, int m, double dt)
+        {
+            List<double> lpw_hpf = _HPF_Filter(fcut, m, dt);
+
+            for (int j = 0; j < source.Length; j++)
+            {
+                int n = source[j].Length;
+                double[] y = new double[n];
+                for (int i = 0; i < n; i++)
+                    y[i] = source[j][i];
+                double[] res = new double[n + m];
+
+                for (int k = 0; k < res.Length; k++)
+                {
+                    double yk = 0;
+                    for (int l = 0; l < lpw_hpf.Count; l++)
+                    {
+                        if ((k - l < 0) || (k - l >= n))
+                        { }
+                        else
+                        {
+                            yk += y[k - l] * lpw_hpf[l];
+                        }
+                    }
+                    res[k] = yk;
+                }
+                for (int i = 0; i < n; i++)
+                    source[j][i] = res[i + m];
+            }
+            return source;
+        }
+
+        public static double[][] BSF_y(double[][] source, double fcut1, double fcut2, int m, double dt)
+        {
+            List<double> lpw_bsf = _BSF_Filter(fcut1, fcut2, m, dt);
+
+            for (int j = 0; j < source.Length; j++)
+            {
+                int n = source[j].Length;
+                double[] y = new double[n];
+                for (int i = 0; i < n; i++)
+                    y[i] = source[j][i];
+                double[] res = new double[n + m];
+
+                for (int k = 0; k < res.Length; k++)
+                {
+                    double yk = 0;
+                    for (int l = 0; l < lpw_bsf.Count; l++)
+                    {
+                        if ((k - l < 0) || (k - l >= n))
+                        { }
+                        else
+                        {
+                            yk += y[k - l] * lpw_bsf[l];
+                        }
+                    }
+                    res[k] = yk;
+                }
+                for (int i = 0; i < n; i++)
+                    source[j][i] = res[i + m];
+            }
+            return source;
+        }
+
+        public static double[][] BSF_x(double[][] source, double fcut1, double fcut2, int m, double dt)
+        {
+            List<double> lpw_bsf = _BSF_Filter(fcut1, fcut2, m, dt);
+
+            for (int j = 0; j < source[0].Length; j++)
+            {
+                int n = source.Length;
+                double[] y = new double[n];
+                for (int i = 0; i < n; i++)
+                    y[i] = source[i][j];
+                double[] res = new double[n + m];
+
+                for (int k = 0; k < res.Length; k++)
+                {
+                    double yk = 0;
+                    for (int l = 0; l < lpw_bsf.Count; l++)
+                    {
+                        if ((k - l < 0) || (k - l >= n))
+                        { }
+                        else
+                        {
+                            yk += y[k - l] * lpw_bsf[l];
+                        }
+                    }
+                    res[k] = yk;
+                }
+                for (int i = 0; i < n; i++)
+                    source[i][j] = res[i + m];
+            }
+            return source;
+        }
 
         //гребенчатый фильтр
         public static double[] CombFilter(double[] x, double g, int M)
