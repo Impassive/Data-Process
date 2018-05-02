@@ -119,7 +119,9 @@ namespace EasyImage
                     break;
                 case ("Gamma"):
                     {
-                        result = Processing.Gamma(data, 1, 2);
+                        //improve C after 1 for darkness, degrade after 1 for light
+                        //For xcr (need rescale + normilize)
+                        result = Processing.Gamma(data, 1, 0.7);
                     }
                     break;
                 case ("Remove Border (LPF)"):
@@ -157,7 +159,6 @@ namespace EasyImage
                     break;
                 case ("Remove Grid"):
                     {
-                        double dt = 1;
                         //Calculate grid fcuts:
                         //среднее по массиву Фурье:
                         double avg = Fourier.CalcAVG(tempFourier1);
@@ -180,12 +181,24 @@ namespace EasyImage
                     break;
                 case ("Dilatation"):
                     {
+                        result = Border.StepFunction(result, 180, 180, 8);
+                        double[][] step = result;
+                        step = Copy2D(result, step);
                         result = Processing.ApplyMaskDilatation(result, 10, 128);
+                        for (int i = 0; i < step.Length; i++)
+                            for (int j = 0; j < step[0].Length; j++)
+                                result[i][j] -= step[i][j];
                     }
                     break;
                 case ("Erosion"):
                     {
-                        result = Processing.ApplyMaskErosion(result, 10, 128);
+                        result = Border.StepFunction(result, 180, 180, 8);
+                        double[][] step = result;
+                        step = Copy2D(result, step);
+                        step = Processing.ApplyMaskErosion(step, 10, 128);
+                        for (int i = 0; i < step.Length; i++)
+                            for (int j = 0; j < step[0].Length; j++)
+                                result[i][j] -= step[i][j];
                     }
                     break;
                 default:

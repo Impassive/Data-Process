@@ -110,7 +110,6 @@ namespace EasyImage.Source
             {
                 for (int j = 0; j < height; j++)
                 {
-
                     x[i][j] = C * Math.Log10(x[i][j] + 1);
                 }
             }
