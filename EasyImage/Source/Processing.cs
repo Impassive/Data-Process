@@ -224,7 +224,7 @@ namespace EasyImage.Source
             return result;
         }
 
-        public static double[][] ApplyRandNoize(double[][] source, double power)
+        public static double[][] randomNoize(double[][] source, double power)
         {
             Random rnd = new Random(source.Length);
             double[][] result = new double[source.Length][];
