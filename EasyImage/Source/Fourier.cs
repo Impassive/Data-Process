@@ -23,10 +23,26 @@ namespace EasyImage.Source
             //Если частота замеров = T, то восстановить зависимости ты можешь до 1/(2dT)
             for (int i = 0; i < data.Length / 2; i++)
             {
-                series.Points.AddXY((double)(i * (dt/data.Length)), data[i]);
+                series.Points.AddXY((double)(i * (dt / data.Length)), data[i]);
             }
+            Zoom(chart);
             chart.Update();
         }
+
+        public static void Zoom(Chart chart)
+        {
+            foreach (var chartAreas in chart.ChartAreas)
+            {
+                chartAreas.AxisX.IsMarginVisible = false;
+                //chartAreas.AxisX.ScaleView.Zoomable = true;
+                //chartAreas.AxisY.ScaleView.Zoomable = true;
+                //chartAreas.CursorX.IsUserEnabled = true;
+                //chartAreas.CursorX.IsUserSelectionEnabled = true;
+                //chartAreas.CursorY.IsUserEnabled = true;
+                //chartAreas.CursorY.IsUserSelectionEnabled = true;
+            }
+        }
+
 
         public static double[] AutoCrossCorrelation(double[] first, double[] second)
         {
@@ -134,9 +150,9 @@ namespace EasyImage.Source
 
                 res[i] = Math.Sqrt(Math.Pow(Rei, 2) + Math.Pow(Imi, 2));
             });
-
             return res;
         }
+
 
         public static Complex[] ReverseFourier(double[] source)
         {

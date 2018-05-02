@@ -19,6 +19,9 @@ namespace EasyImage
         public string kernel = "empty";
         public double[][] data;
         public double[][] noize;
+        int line = 95;
+        double filter = 0.09; //для рандомного шума
+        //double filter = 0.03; // для соли и перца
         double[] tempFourier1;
         double[] tempFourier2;
         public double[] kernelData;
@@ -56,15 +59,15 @@ namespace EasyImage
 
         private double[] PrepareVerticalFouirier(double[][] source, int line = 0)
         {
-            double[] result;
+            double[] oneLine;
             //take string x
-            result = new double[source.Length];
+            oneLine = new double[source.Length];
             for (int i = 0; i < source.Length; i++)
-                result[i] = source[i][line];
-            result = Fourier.Derivative(result);
-            result = Fourier.AutoCrossCorrelation(result, result);
-            result = Fourier.FourierFunction(result);
-            return result;
+                oneLine[i] = source[i][line];
+            //oneLine = Fourier.Derivative(oneLine);
+            //oneLine = Fourier.AutoCrossCorrelation(oneLine, oneLine);
+            oneLine = Fourier.FourierFunction(oneLine);
+            return oneLine;
         }
 
         public static double[][] Copy2D(double[][] source, double[][] dest)
@@ -89,9 +92,9 @@ namespace EasyImage
             data = Reader.readFile(image, x, y, false);
             //Copy data line for Fourier
             //data = Reader.Rotate(data);
-            tempFourier1 = PrepareVerticalFouirier(data, 20);
+            tempFourier1 = PrepareVerticalFouirier(data, line);
             //Print Fourier
-            Fourier.Draw(fourierChart, tempFourier1, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
+            Fourier.Draw(fourierChart, tempFourier1, SeriesChartType.Spline);
             if (kernel != "empty")
                 kernelData = Reader.readHex(kernel);
             double[][] result = data;
@@ -172,12 +175,13 @@ namespace EasyImage
                             if (tempFourier1[i] > avg + sigma / 4)
                                 temp[i] = i * (dt / data.Length);
                         }
-                        var peaks = from x in temp
-                                    where x != 0
-                                    select x;
+                        var peaks = from point in temp
+                                    where point != 0
+                                    select point;
+                        double lefttmp = 0.275609756097561;
                         double left = peaks.Min();
                         double right = peaks.Max();
-                        result = Recover.removeLines(data, left, right, 64, dt);
+                        result = Recover.removeLines(data, lefttmp, right, 64, dt);
                     }
                     break;
                 case ("Dilatation"):
@@ -270,14 +274,20 @@ namespace EasyImage
                     break;
                 case ("LPF"):
                     {
+                        //find filter freq
+                        //prepare clear data fourier and then minus the noize fourier
+                        tempFourier2 = new double[tempFourier1.Length];
+                        for (int i = 0; i < tempFourier1.Length; i++)
+                            tempFourier2[i] -= tempFourier1[i];
+
                         //Print Fourier wth Noize
-                        tempFourier2 = PrepareVerticalFouirier(result, 20);
-                        Fourier.Draw(fourierChart, tempFourier2, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
+                        //tempFourier2 = PrepareVerticalFouirier(result, line);
+                        Fourier.Draw(fourierChart, tempFourier2, SeriesChartType.Spline);
 
                         //LPF Filter
-                        result = Filters.LPF_y(result, 0.3, 64, dt);
+                        result = Filters.LPF_y(result, filter, 64, dt);
                         //Print Fourier after LPF
-                        //tempFourier2 = PrepareVerticalFouirier(temp, 20);
+                        //tempFourier2 = PrepareVerticalFouirier(temp, line);
                         //Fourier.Draw(fourierChart, tempFourier2, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
 
                         //output noize picture
@@ -289,13 +299,13 @@ namespace EasyImage
                         double[][] temp = result;
                         temp = Copy2D(result, temp);
                         //Print Fourier wth Noize
-                        tempFourier2 = PrepareVerticalFouirier(temp, 20);
-                        Fourier.Draw(fourierChart, tempFourier2, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
+                        tempFourier2 = PrepareVerticalFouirier(temp, line);
+                        Fourier.Draw(fourierChart, tempFourier2, SeriesChartType.Spline);
 
                         //HPF Filter
-                        temp = Filters.HPF_y(temp, 0.3, 64, dt);
+                        temp = Filters.HPF_y(temp, filter, 64, dt);
                         //Print Fourier after HPF
-                        //tempFourier2 = PrepareVerticalFouirier(temp, 20);
+                        //tempFourier2 = PrepareVerticalFouirier(temp, line);
                         //Fourier.Draw(fourierChart, tempFourier2, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline);
 
                         //output noize picture

@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea19 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea20 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabImage = new System.Windows.Forms.TabPage();
             this.noizeGBox = new System.Windows.Forms.GroupBox();
@@ -313,17 +313,17 @@
             // 
             // fourierChart
             // 
-            chartArea1.Name = "Fourier";
-            this.fourierChart.ChartAreas.Add(chartArea1);
+            chartArea16.Name = "Fourier";
+            this.fourierChart.ChartAreas.Add(chartArea16);
             this.fourierChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.fourierChart.Legends.Add(legend1);
+            legend7.Name = "Legend1";
+            this.fourierChart.Legends.Add(legend7);
             this.fourierChart.Location = new System.Drawing.Point(0, 0);
             this.fourierChart.Name = "fourierChart";
-            series1.ChartArea = "Fourier";
-            series1.Legend = "Legend1";
-            series1.Name = "default";
-            this.fourierChart.Series.Add(series1);
+            series7.ChartArea = "Fourier";
+            series7.Legend = "Legend1";
+            series7.Name = "default";
+            this.fourierChart.Series.Add(series7);
             this.fourierChart.Size = new System.Drawing.Size(1296, 756);
             this.fourierChart.TabIndex = 0;
             this.fourierChart.Text = "fourierChart";
@@ -370,23 +370,23 @@
             // 
             // chartHisto
             // 
-            chartArea2.Name = "normal";
-            chartArea3.Name = "density";
-            chartArea4.Name = "equalization";
-            chartArea5.Name = "reverse";
-            this.chartHisto.ChartAreas.Add(chartArea2);
-            this.chartHisto.ChartAreas.Add(chartArea3);
-            this.chartHisto.ChartAreas.Add(chartArea4);
-            this.chartHisto.ChartAreas.Add(chartArea5);
+            chartArea17.Name = "normal";
+            chartArea18.Name = "density";
+            chartArea19.Name = "equalization";
+            chartArea20.Name = "reverse";
+            this.chartHisto.ChartAreas.Add(chartArea17);
+            this.chartHisto.ChartAreas.Add(chartArea18);
+            this.chartHisto.ChartAreas.Add(chartArea19);
+            this.chartHisto.ChartAreas.Add(chartArea20);
             this.chartHisto.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chartHisto.Legends.Add(legend2);
+            legend8.Name = "Legend1";
+            this.chartHisto.Legends.Add(legend8);
             this.chartHisto.Location = new System.Drawing.Point(3, 3);
             this.chartHisto.Name = "chartHisto";
-            series2.ChartArea = "normal";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartHisto.Series.Add(series2);
+            series8.ChartArea = "normal";
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            this.chartHisto.Series.Add(series8);
             this.chartHisto.Size = new System.Drawing.Size(1290, 750);
             this.chartHisto.TabIndex = 0;
             this.chartHisto.Text = "histo";
